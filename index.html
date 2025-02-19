@@ -29,7 +29,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
+         }
         .circle {
             position: absolute;
             top: 50%;
@@ -39,7 +39,7 @@
             height: 100px;
             background-color: pink;
             transform: translate(-50%, -50%);
-            z-index: -1;
+            z-index: 0;
         }
         .button {
             cursor: pointer;
@@ -56,25 +56,42 @@
         .step-actions {
             display: none;
             margin-top: 10px;
-            flex-direction: row;
-            justify-content: center;
-            gap: 10px;
         }
         .button-container.active .step-actions {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
             gap: 20px;
-            margin-top: 10px;
         }
-        /* Mise en page pour mobile */
+        #video-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        #video-popup video {
+            width: 80vw;
+            max-width: 640px;
+            height: auto;
+        }
+        #close-video {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+         /* Mise en page pour mobile */
         @media screen and (max-width: 768px) {
             #title {
-                margin-top: 10px;
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                text-align: center;
+                margin-top: 10px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
             }
             body {
                 background: url('background-mobile.jpg') no-repeat center center fixed;
@@ -95,10 +112,10 @@
                 text-align: center;
             }
             .button {
-                width: 200px !important;
+                width: 200px !important; /* Taille plus petite des icônes sur mobile */
             }
             .circle {
-                width: 180px !important;
+                width: 180px !important; /* Taille des cercles ajustable sur mobile */
                 height: 180px !important;
             }
         }
@@ -121,9 +138,9 @@
             steps.forEach((step, index) => {
                 document.write(`
                     <div class="button-container" id="step-${index + 1}">
-                        <div class="circle"></div>
-                        <img src="icons/${step.name}.png" class="button" onclick="toggleStep(${index + 1})" style="width: ${step.size};">
-                        <div class="step-actions" id="actions-${index + 1}">
+                        <div class="circle" style="width: 200px; height: 200px;"></div>
+                        <img src="icons/${step.name}.png" class="button" onclick="openStep(${index + 1})" style="width: ${step.size};">
+                        <div class="step-actions">
                             <img src="icons/valider.png" class="validate" onclick="validateStep(${index + 1})" style="width: 100px; cursor: pointer;">
                             <img src="icons/annuler.png" class="cancel" onclick="cancelStep(${index + 1})" style="width: 100px; cursor: pointer;">
                         </div>
@@ -133,24 +150,50 @@
         </script>
     </div>
     
+    <div id="video-popup">
+        <button id="close-video" onclick="hideVideo()">X</button>
+        <video id="video" controls>
+            <source id="video-source" src="" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture de vidéos.
+        </video>
+    </div>
+    
     <script>
-        function toggleStep(step) {
-            let actions = document.getElementById(`actions-${step}`);
-            let allActions = document.querySelectorAll('.step-actions');
-            allActions.forEach(action => { if (action !== actions) action.style.display = 'none'; });
-            actions.style.display = actions.style.display === 'flex' ? 'none' : 'flex';
-        }`);
-            actions.style.display = actions.style.display === 'flex' ? 'none' : 'flex';
+        const videos = {
+            1: "videos/douche.mp4",
+            2: "videos/jeu.mp4",
+            3: "videos/repas.mp4",
+            4: "videos/dent.mp4",
+            5: "videos/jeux.mp4",
+            6: "videos/livre.mp4",
+            7: "videos/dodo.mp4"
+        };
+
+        function openStep(step) {
+            document.querySelectorAll('.button-container').forEach(container => container.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+            hideVideo();
         }
 
         function validateStep(step) {
             document.getElementById(`step-${step}`).classList.add('validated');
+            document.getElementById('video-source').src = videos[step];
+            document.getElementById('video').load();
+            document.getElementById('video-popup').style.display = 'block';
+            document.getElementById('video').play();
         }
 
         function cancelStep(step) {
             document.getElementById(`step-${step}`).classList.remove('validated');
+            hideVideo();
+        }
+
+        function hideVideo() {
+            document.getElementById('video-popup').style.display = 'none';
+            document.getElementById('video').pause();
+            document.getElementById('video-source').src = "";
         }
     </script>
 </body>
 </html>
- 
+           
