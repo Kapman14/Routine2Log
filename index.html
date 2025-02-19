@@ -87,14 +87,17 @@
         }
         
         /* Mise en page pour mobile */
-        @media screen and (max-width: 768px) {
+           @media screen and (max-width: 768px) {
+            #title {
+                margin-top: 20px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
+            }
             body {
                 background: url('background-mobile.jpg') no-repeat center center fixed;
                 background-size: cover;
             }
             #title {
                 content: url('icons/titre-mobile.png');
-                width: 100%;
+                width: 80%;
             }
             #buttons {
                 display: flex;
