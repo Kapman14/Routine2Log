@@ -87,7 +87,16 @@
             cursor: pointer;
             font-size: 16px;
         }
-        
+        #success-gif {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 1000;
+        }
         /* Mise en page pour mobile */
         @media screen and (max-width: 768px) {
             #title {
@@ -138,7 +147,7 @@
             steps.forEach((step, index) => {
                 document.write(`
                     <div class="button-container" id="step-${index + 1}">
-                        <div class="circle" style="width: 200px; height: 200px;"></div>
+                        <div class="circle"></div>
                         <img src="icons/${step.name}.png" class="button" onclick="openStep(${index + 1})" style="width: ${step.size};">
                         <div class="step-actions">
                             <img src="icons/valider.png" class="validate" onclick="validateStep(${index + 1})" style="width: 100px; cursor: pointer;">
@@ -150,48 +159,26 @@
         </script>
     </div>
     
-    <div id="video-popup">
-        <button id="close-video" onclick="hideVideo()">X</button>
-        <video id="video" controls>
-            <source id="video-source" src="" type="video/mp4">
-            Votre navigateur ne supporte pas la lecture de vidéos.
-        </video>
+    <div id="success-gif">
+        <img src="icons/success.gif" alt="Succès" id="gif-image">
     </div>
     
     <script>
-        const videos = {
-            1: "videos/douche.mp4",
-            2: "videos/jeu.mp4",
-            3: "videos/repas.mp4",
-            4: "videos/dent.mp4",
-            5: "videos/jeux.mp4",
-            6: "videos/livre.mp4",
-            7: "videos/dodo.mp4"
-        };
-
-        function openStep(step) {
-            document.querySelectorAll('.button-container').forEach(container => container.classList.remove('active'));
-            document.getElementById(`step-${step}`).classList.add('active');
-            hideVideo();
-        }
-
-        function validateStep(step) {
-            document.getElementById(`step-${step}`).classList.add('validated');
-            document.getElementById('video-source').src = videos[step];
-            document.getElementById('video').load();
-            document.getElementById('video-popup').style.display = 'block';
-            document.getElementById('video').play();
-        }
-
-        function cancelStep(step) {
-            document.getElementById(`step-${step}`).classList.remove('validated');
-            hideVideo();
-        }
-
-        function hideVideo() {
-            document.getElementById('video-popup').style.display = 'none';
-            document.getElementById('video').pause();
-            document.getElementById('video-source').src = "";
+        function checkAllValidated() {
+            const allValidated = document.querySelectorAll('.validated').length === 7;
+            const gifElement = document.getElementById('success-gif');
+            
+            if (allValidated) {
+                gifElement.style.display = 'flex';
+                setTimeout(() => {
+                    gifElement.style.opacity = '1';
+                }, 50);
+            } else {
+                gifElement.style.opacity = '0';
+                setTimeout(() => {
+                    gifElement.style.display = 'none';
+                }, 500);
+            }
         }
     </script>
 </body>
