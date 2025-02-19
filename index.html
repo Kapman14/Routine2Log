@@ -14,13 +14,13 @@
         }
         #title {
             margin-top: 50px;
-            width: 2500px;
+            width: 1000px;
         }
         #buttons {
             display: flex;
             justify-content: center;
-            gap: 100px;
-            margin-top: 50px;
+            gap: 60px;
+            margin-top: 150px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -35,7 +35,7 @@
             top: 50%;
             left: 50%;
             border-radius: 50%;
-            border: 15px solid pink;
+            border: 10px solid red;
             transform: translate(-50%, -50%);
             z-index: 0;
         }
@@ -59,9 +59,51 @@
             display: flex;
             gap: 20px;
         }
-        #video-container { 
-            display: none; 
-            margin-top: 50px; 
+        #video-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        #video-popup video {
+            width: 80vw;
+            max-width: 640px;
+            height: auto;
+        }
+        #close-video {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Mise en page pour mobile */
+        @media screen and (max-width: 768px) {
+            #title {
+                width: 80%;
+            }
+            #buttons {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 30px;
+                justify-content: center;
+            }
+            .button-container {
+                width: 100%;
+                text-align: center;
+            }
+            .button {
+                width: 150px !important; /* Taille plus petite des icônes sur mobile */
+            }
         }
     </style>
 </head>
@@ -70,13 +112,13 @@
     <div id="buttons">
         <script>
             const steps = [
-                { name: 'douche', size: '300px' },
-                { name: 'jeu', size: ' 350px' },
-                { name: 'repas', size: '320px' },
-                { name: 'dent', size: '350px' },
-                { name: 'jeux', size: '350px' },
-                { name: 'livre', size: '350px' },
-                { name: 'dodo', size: '350px' }
+                { name: 'douche', size: '220px' },
+                { name: 'jeu', size: '250px' },
+                { name: 'repas', size: '230px' },
+                { name: 'dent', size: '240px' },
+                { name: 'jeux', size: '250px' },
+                { name: 'livre', size: '210px' },
+                { name: 'dodo', size: '260px' }
             ];
 
             steps.forEach((step, index) => {
@@ -93,12 +135,15 @@
             });
         </script>
     </div>
-    <div id="video-container">
-        <video id="video" width="1280" height="720" controls>
+    
+    <div id="video-popup">
+        <button id="close-video" onclick="hideVideo()">X</button>
+        <video id="video" controls>
             <source id="video-source" src="" type="video/mp4">
             Votre navigateur ne supporte pas la lecture de vidéos.
         </video>
     </div>
+    
     <script>
         const videos = {
             1: "videos/douche.mp4",
@@ -120,7 +165,7 @@
             document.getElementById(`step-${step}`).classList.add('validated');
             document.getElementById('video-source').src = videos[step];
             document.getElementById('video').load();
-            document.getElementById('video-container').style.display = 'block';
+            document.getElementById('video-popup').style.display = 'block';
             document.getElementById('video').play();
         }
 
@@ -130,7 +175,7 @@
         }
 
         function hideVideo() {
-            document.getElementById('video-container').style.display = 'none';
+            document.getElementById('video-popup').style.display = 'none';
             document.getElementById('video').pause();
             document.getElementById('video-source').src = "";
         }
