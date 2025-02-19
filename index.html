@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le soir de Logan</title>
+    <style>
+        body { 
+            font-family: "Comic Sans MS", cursive, sans-serif; 
+            text-align: center; 
+            background: url('background.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            color: white;
+        }
+        #title {
+            margin-top: 50px;
+            width: 2500px;
+        }
+        #buttons {
+            display: flex;
+            justify-content: center;
+            gap: 100px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .button-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 15px solid pink;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+        .button {
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+        .button:hover {
+            transform: scale(1.1);
+        }
+        .validated .circle {
+            border-color: green;
+        }
+        .step-actions {
+            display: none;
+            margin-top: 10px;
+        }
+        .button-container.active .step-actions {
+            display: flex;
+            gap: 20px;
+        }
+        #video-container { 
+            display: none; 
+            margin-top: 50px; 
+        }
+    </style>
+</head>
+<body>
+    <img id="title" src="icons/titre.png" alt="Le soir de Logan">
+    <div id="buttons">
+        <script>
+            const steps = [
+                { name: 'douche', size: '300px' },
+                { name: 'jeu', size: ' 350px' },
+                { name: 'repas', size: '320px' },
+                { name: 'dent', size: '350px' },
+                { name: 'jeux', size: '350px' },
+                { name: 'livre', size: '350px' },
+                { name: 'dodo', size: '350px' }
+            ];
+
+            steps.forEach((step, index) => {
+                document.write(`
+                    <div class="button-container" id="step-${index + 1}">
+                        <div class="circle" style="width: 200px; height: 200px;"></div>
+                        <img src="icons/${step.name}.png" class="button" onclick="openStep(${index + 1})" style="width: ${step.size};">
+                        <div class="step-actions">
+                            <img src="icons/valider.png" class="validate" onclick="validateStep(${index + 1})" style="width: 100px; cursor: pointer;">
+                            <img src="icons/annuler.png" class="cancel" onclick="cancelStep(${index + 1})" style="width: 100px; cursor: pointer;">
+                        </div>
+                    </div>
+                `);
+            });
+        </script>
+    </div>
+    <div id="video-container">
+        <video id="video" width="1280" height="720" controls>
+            <source id="video-source" src="" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture de vidéos.
+        </video>
+    </div>
+    <script>
+        const videos = {
+            1: "videos/douche.mp4",
+            2: "videos/jeu.mp4",
+            3: "videos/repas.mp4",
+            4: "videos/dent.mp4",
+            5: "videos/jeux.mp4",
+            6: "videos/livre.mp4",
+            7: "videos/dodo.mp4"
+        };
+
+        function openStep(step) {
+            document.querySelectorAll('.button-container').forEach(container => container.classList.remove('active'));
+            document.getElementById(`step-${step}`).classList.add('active');
+            hideVideo();
+        }
+
+        function validateStep(step) {
+            document.getElementById(`step-${step}`).classList.add('validated');
+            document.getElementById('video-source').src = videos[step];
+            document.getElementById('video').load();
+            document.getElementById('video-container').style.display = 'block';
+            document.getElementById('video').play();
+        }
+
+        function cancelStep(step) {
+            document.getElementById(`step-${step}`).classList.remove('validated');
+            hideVideo();
+        }
+
+        function hideVideo() {
+            document.getElementById('video-container').style.display = 'none';
+            document.getElementById('video').pause();
+            document.getElementById('video-source').src = "";
+        }
+    </script>
+</body>
+</html>
