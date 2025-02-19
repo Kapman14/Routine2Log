@@ -1,1 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le soir de Logan</title>
+    <style>
+        body { 
+            font-family: "Comic Sans MS", cursive, sans-serif; 
+            text-align: center; 
+            background: url('background.jpg') no-repeat center center fixed; 
+            background-size: cover;
+            color: white;
+        }
+        #title {
+            margin-top: 50px;
+            width: 1000px;
+        }
+        #buttons {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 100px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .button-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            width: 100px;
+            height: 100px;
+            background-color: pink;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+        .button {
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            z-index: 1;
+        }
+        .button:hover {
+            transform: scale(1.1);
+        }
+        .validated .circle {
+            background-color: green;
+        }
+        .step-actions {
+            display: none;
+            margin-top: 10px;
+        }
+        .button-container.active .step-actions {
+            display: flex;
+            gap: 20px;
+        }
+        #video-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        #video-popup video {
+            width: 80vw;
+            max-width: 640px;
+            height: auto;
+        }
+        #close-video {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        /* Mise en page pour mobile */
+        @media screen and (max-width: 768px) {
+            #title {
+                margin-top: 10px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+            body {
+                background: url('background-mobile.jpg') no-repeat center center fixed;
+                background-size: cover;
+            }
+            #title {
+                content: url('icons/titre-mobile.png');
+                width: 100%;
+            }
+            #buttons {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                align-items: center;
+                gap: 30px;
+            }
+            .button-container {
+                width: auto;
+                text-align: center;
+            }
+            .button {
+                width: 200px !important;
+            }
+            .circle {
+                width: 180px !important;
+                height: 180px !important;
+            }
+        }
+            #title {
+                margin-top: 10px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                text-align: center;
+            }
+            #title {
+                margin-top: 10px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
+            }
+            body {
+                background: url('background-mobile.jpg') no-repeat center center fixed;
+                background-size: cover;
+            }
+            #title {
+                content: url('icons/titre-mobile.png');
+                width: 100%;
+            }
+            #buttons {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 50px;
+            }
+            .button-container {
+                width: 120%;
+                text-align: center;
+            }
+            .button {
+                width: 200px !important; /* Taille plus petite des icônes sur mobile */
+            }
+            .circle {
+                width: 180px !important; /* Taille des cercles ajustable sur mobile */
+                height: 180px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <img id="title" src="icons/titre.png" alt="Le soir de Logan">
+    <div id="buttons">
+        <script>
+            const steps = [
+                { name: 'douche', size: '220px' },
+                { name: 'jeu', size: '250px' },
+                { name: 'repas', size: '230px' },
+                { name: 'dent', size: '240px' },
+                { name: 'jeux', size: '250px' },
+                { name: 'livre', size: '210px' },
+                { name: 'dodo', size: '260px' }
+            ];
+
+            steps.forEach((step, index) => {
+                document.write(`
+                    <div class="button-container" id="step-${index + 1}">
+                        <div class="circle"></div>
+                        <img src="icons/${step.name}.png" class="button" onclick="openStep(${index + 1})" style="width: ${step.size};">
+                        <div class="step-actions">
+                            <img src="icons/valider.png" class="validate" onclick="validateStep(${index + 1})" style="width: 100px; cursor: pointer;">
+                            <img src="icons/annuler.png" class="cancel" onclick="cancelStep(${index + 1})" style="width: 100px; cursor: pointer;">
+                        </div>
+                    </div>
+                `);
+            });
+        </script>
+    </div>
+</body>
+</html>
 
