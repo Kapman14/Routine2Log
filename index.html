@@ -35,7 +35,7 @@
             top: 50%;
             left: 50%;
             border-radius: 50%;
-            border: 10px solid pink;
+            border: 10px solid red;
             transform: translate(-50%, -50%);
             z-index: 0;
         }
@@ -89,24 +89,24 @@
         /* Mise en page pour mobile */
         @media screen and (max-width: 768px) {
             #title {
-                width: 200%;
+                width: 80%;
             }
-             #buttons {
+            #buttons {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                gap: 30px; 
-            }
-            .circle {
-                width: 80px !important; /* Taille des cercles ajustable sur mobile */
-                height: 80px !important; 
+                gap: 30px;
             }
             .button-container {
-                width:   60%;
+                width: 100%;
                 text-align: center;
             }
             .button {
-                width: 90px !important; /* Taille plus petite des icônes sur mobile */
+                width: 150px !important; /* Taille plus petite des icônes sur mobile */
+            }
+            .circle {
+                width: 120px !important; /* Taille des cercles ajustable sur mobile */
+                height: 120px !important;
             }
         }
     </style>
