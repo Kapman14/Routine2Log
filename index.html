@@ -141,5 +141,50 @@
             document.getElementById(`step-${step}`).classList.remove('validated');
         }
     </script>
+    <div id="video-popup" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0, 0, 0, 0.8); padding: 20px; border-radius: 10px; z-index: 1000;">
+        <button id="close-video" onclick="hideVideo()" style="position: absolute; top: 10px; right: 10px; background: white; color: black; border: none; cursor: pointer; font-size: 16px;">X</button>
+        <video id="video" width="640" height="480" controls>
+            <source id="video-source" src="" type="video/mp4">
+            Votre navigateur ne supporte pas la lecture de vidéos.
+        </video>
+    </div>
+    <script>
+        const videos = {
+            1: "videos/douche.mp4",
+            2: "videos/jeu.mp4",
+            3: "videos/repas.mp4",
+            4: "videos/dent.mp4",
+            5: "videos/jeux.mp4",
+            6: "videos/livre.mp4",
+            7: "videos/dodo.mp4"
+        };
+
+        function toggleStep(step) {
+            let actions = document.getElementById(`actions-${step}`);
+            actions.style.display = actions.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function validateStep(step) {
+            document.getElementById(`step-${step}`).classList.add('validated');
+            document.getElementById('video-source').src = videos[step];
+            document.getElementById('video').load();
+            document.getElementById('video-popup').style.display = 'block';
+            document.getElementById('video').play();
+        }
+
+        function cancelStep(step) {
+            document.getElementById(`step-${step}`).classList.remove('validated');
+            hideVideo();
+        }
+
+        function hideVideo() {
+            document.getElementById('video-popup').style.display = 'none';
+            document.getElementById('video').pause();
+            document.getElementById('video-source').src = "";
+        }
+    </script>
+</body>
+</html>
+
 </body>
 </html>
