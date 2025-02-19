@@ -20,7 +20,7 @@
             display: flex;
             justify-content: center;
             gap: 60px;
-            margin-top: 150px;
+            margin-top: 100px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -61,77 +61,14 @@
             display: flex;
             gap: 20px;
         }
-        #video-popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            border-radius: 10px;
-            z-index: 1000;
-        }
-        #video-popup video {
-            width: 80vw;
-            max-width: 640px;
-            height: auto;
-        }
-        #close-video {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            color: black;
-            border: none;
-            cursor: pointer;
-            font-size: 16px;
-        }
         /* Mise en page pour mobile */
         @media screen and (max-width: 768px) {
             #title {
-                margin-top: 50px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
+                margin-top: 10px;
                 display: block;
                 margin-left: auto;
                 margin-right: auto;
                 text-align: center;
-            }
-            body {
-                background: url('background-mobile.jpg') no-repeat center center fixed;
-                background-size: cover;
-            }
-            #title {
-                content: url('icons/titre-mobile.png');
-                width: 90%;
-            }
-            #buttons {
-                display: flex;
-                flex-wrap: wrap;
-                justify-content: center;
-                align-items: center;
-                gap: 30px;
-            }
-            .button-container {
-                width: auto;
-                text-align: center;
-            }
-            .button {
-                width: 200px !important;
-            }
-            .circle {
-                width: 180px !important;
-                height: 180px !important;
-            }
-        }
-            #title {
-                margin-top: 10px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
-                display: block;
-                margin-left: auto;
-                margin-right: auto;
-                text-align: center;
-            }
-            #title {
-                margin-top: 10px; /* Ajustable pour la distance entre le titre et le premier bouton en mode mobile */
             }
             body {
                 background: url('background-mobile.jpg') no-repeat center center fixed;
@@ -152,10 +89,10 @@
                 text-align: center;
             }
             .button {
-                width: 200px !important; /* Taille plus petite des icônes sur mobile */
+                width: 200px !important;
             }
             .circle {
-                width: 180px !important; /* Taille des cercles ajustable sur mobile */
+                width: 180px !important;
                 height: 180px !important;
             }
         }
@@ -179,8 +116,8 @@
                 document.write(`
                     <div class="button-container" id="step-${index + 1}">
                         <div class="circle"></div>
-                        <img src="icons/${step.name}.png" class="button" onclick="openStep(${index + 1})" style="width: ${step.size};">
-                        <div class="step-actions">
+                        <img src="icons/${step.name}.png" class="button" onclick="toggleStep(${index + 1})" style="width: ${step.size};">
+                        <div class="step-actions" id="actions-${index + 1}">
                             <img src="icons/valider.png" class="validate" onclick="validateStep(${index + 1})" style="width: 100px; cursor: pointer;">
                             <img src="icons/annuler.png" class="cancel" onclick="cancelStep(${index + 1})" style="width: 100px; cursor: pointer;">
                         </div>
@@ -189,6 +126,20 @@
             });
         </script>
     </div>
+    
+    <script>
+        function toggleStep(step) {
+            let actions = document.getElementById(`actions-${step}`);
+            actions.style.display = actions.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function validateStep(step) {
+            document.getElementById(`step-${step}`).classList.add('validated');
+        }
+
+        function cancelStep(step) {
+            document.getElementById(`step-${step}`).classList.remove('validated');
+        }
+    </script>
 </body>
 </html>
-
